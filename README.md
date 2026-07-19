@@ -21,7 +21,8 @@ Deux approches complémentaires :
 | 4 | **Mode PC** | Affiche la progression envoyée par le script Python |
 | 5 | **Quiz phishing** | 6 scénarios : arnaque ou légitime ? |
 | 6 | **DDoS sim** | Animation pédagogique (aucun paquet réseau) |
-| 7 | **Sensibilisation** | Rotation de bonnes pratiques |
+| 7 | **DDoS lab** | Démo coopérative avec PC victime (sans flood) |
+| 8 | **Sensibilisation** | Rotation de bonnes pratiques |
 
 - **A** : descendre dans le menu / pause / conseil suivant  
 - **B** : valider / quitter  
@@ -53,9 +54,10 @@ pio device monitor -b 115200
 Éditer `include/config.h` :
 
 ```cpp
-#define LAB_SSID     "LABO_CYBER_DEMO"   // votre AP de test
-#define LAB_PASSWORD "12345678"          // mot de passe volontairement faible
-#define FAKE_AP_SSID "Starbucks_Free"    // nom du faux réseau
+#define LAB_SSID         "LABO_CYBER_DEMO"   // votre AP de test
+#define LAB_PASSWORD     "12345678"          // mot de passe volontairement faible
+#define FAKE_AP_SSID     "Starbucks_Free"    // nom du faux réseau
+#define LAB_VICTIM_HOST  "192.168.1.50"      // IP du PC (serveur victime)
 ```
 
 ---
@@ -71,7 +73,22 @@ pio device monitor -b 115200
 5. **DDoS sim** : montrer le principe d'une saturation (simulation pure).
 6. **Sensibilisation** : parcourir les conseils à l'écran.
 
-### Partie 2 — M5Stick + PC (~15 min)
+### Partie 2 — DDoS lab (sans flood) (~10 min)
+
+1. PC et M5Stick sur le **même Wi-Fi de labo**.
+2. Sur le PC :
+
+```bash
+python3 pc-tools/ddos_victim_server.py
+# noter l'IP du PC, l'ouvrir dans un navigateur : http://IP:8080
+```
+
+3. Mettre cette IP dans `LAB_VICTIM_HOST` (`include/config.h`), reflasher.
+4. Sur le M5Stick : mode **7 DDoS lab** → **A** pour lancer.
+5. Le navigateur montre la jauge monter (saturation **volontaire** côté serveur).
+6. Débrief : un vrai DDoS est illégal ; ici aucun flood n'a lieu.
+
+### Partie 3 — M5Stick + PC hashcat (~15 min)
 
 1. Configurer un routeur de labo `LABO_CYBER_DEMO` / `12345678`.
 2. Capturer le handshake WPA2 (ex. `hcxdumptool` + `hcxpcapngtool`) → fichier `.hc22000`.
@@ -111,7 +128,8 @@ RESET
 - Panneau visible : *« Atelier cybersécurité — ne pas saisir de vrais identifiants »*
 - **Consentement** des participants
 - Ne jamais cibler un réseau tiers (illégal en France, art. 323-1 et s. du Code pénal)
-- Le mode **DDoS sim** est une **animation uniquement** : aucun paquet n'est envoyé. Un vrai DDoS est illégal (art. 323-2).
+- Le mode **DDoS sim** est une **animation uniquement** : aucun paquet n'est envoyé.
+- Le mode **DDoS lab** envoie au plus ~2 req/s (plafond 40) vers une **IP privée** de labo ; le serveur augmente sa jauge volontairement. Ce n'est **pas** un flood. Un vrai DDoS est illégal (art. 323-2).
 
 Le portail captif affiche un avertissement pédagogique. Utilisez uniquement des identifiants fictifs en démo.
 
@@ -130,10 +148,12 @@ Le portail captif affiche un avertissement pédagogique. Utilisez uniquement des
 │   ├── pc_bridge.cpp         # affichage série
 │   ├── phishing_quiz.cpp     # quiz arnaque / légitime
 │   ├── ddos_sim.cpp          # démo DDoS (simulation, 0 trafic)
+│   ├── ddos_lab.cpp          # pulses HTTP vers PC victime (sans flood)
 │   ├── awareness.cpp         # conseils
 │   └── menu.cpp
 └── pc-tools/
     ├── crack_display.py      # bridge PC → M5Stick
+    ├── ddos_victim_server.py # dashboard victime labo
     └── wordlist-demo.txt
 ```
 
@@ -144,6 +164,7 @@ Le portail captif affiche un avertissement pédagogique. Utilisez uniquement des
 - L'ESP32 ne remplace pas hashcat pour un vrai audit (trop lent).
 - Le brute force **réel** sur le M5Stick fonctionne uniquement contre un AP de labo avec mot de passe dans la petite wordlist embarquée.
 - Le mode **simulation** est idéal pour écoles et salons sans infrastructure réseau.
+- **DDoS lab** refuse les IP publiques ; plafond de pulses côté stick.
 
 ---
 

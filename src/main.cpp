@@ -4,6 +4,7 @@
 #include "bruteforce_real.h"
 #include "bruteforce_sim.h"
 #include "config.h"
+#include "ddos_lab.h"
 #include "ddos_sim.h"
 #include "fake_wifi.h"
 #include "menu.h"
@@ -17,6 +18,9 @@ AppMode currentMode = AppMode::Menu;
 void enterMode(AppMode mode) {
     if (currentMode == AppMode::FakeWifi && mode != AppMode::FakeWifi) {
         fakeWifiStop();
+    }
+    if (currentMode == AppMode::DdosLab && mode != AppMode::DdosLab) {
+        ddosLabStop();
     }
 
     currentMode = mode;
@@ -53,6 +57,10 @@ void enterMode(AppMode mode) {
         case AppMode::DdosSim:
             ddosSimInit();
             ddosSimDraw();
+            break;
+        case AppMode::DdosLab:
+            ddosLabInit();
+            ddosLabDraw();
             break;
     }
 }
@@ -119,6 +127,11 @@ void handleButtons() {
             if (a) ddosSimTogglePause();
             if (b) enterMode(AppMode::Menu);
             break;
+
+        case AppMode::DdosLab:
+            if (a) ddosLabStartOrPause();
+            if (b) enterMode(AppMode::Menu);
+            break;
     }
 }
 
@@ -163,6 +176,9 @@ void loop() {
             break;
         case AppMode::DdosSim:
             ddosSimLoop();
+            break;
+        case AppMode::DdosLab:
+            ddosLabLoop();
             break;
         default:
             break;

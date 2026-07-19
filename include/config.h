@@ -18,3 +18,12 @@
 
 // ── Affichage ───────────────────────────────────────────────────────────────
 #define AWARENESS_TIP_MS 5000
+
+// ── Démo DDoS labo (sans flood) ─────────────────────────────────────────────
+// IP privée du PC qui lance : python3 pc-tools/ddos_victim_server.py
+// Le firmware refuse toute IP hors plages privées (10/8, 172.16/12, 192.168/16).
+#define LAB_VICTIM_HOST      "192.168.1.50"
+#define LAB_VICTIM_PORT      8080
+#define LAB_DEMO_TOKEN       "CYBER_DEMO_LAB"
+#define LAB_DEMO_MAX_PULSES  40      // plafond dur — pas un flood
+#define LAB_DEMO_PULSE_MS    500     // 2 pulses / seconde max

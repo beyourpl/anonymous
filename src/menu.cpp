@@ -14,15 +14,21 @@ const MenuItem ITEMS[] = {
     {"4 Mode PC", AppMode::PcBridge},
     {"5 Quiz phishing", AppMode::PhishingQuiz},
     {"6 DDoS sim", AppMode::DdosSim},
-    {"7 Sensibilisation", AppMode::Awareness},
+    {"7 DDoS lab", AppMode::DdosLab},
+    {"8 Sensibilisation", AppMode::Awareness},
 };
 
 constexpr size_t ITEM_COUNT = sizeof(ITEMS) / sizeof(ITEMS[0]);
+constexpr size_t VISIBLE = 5;
 size_t selected = 0;
+size_t scroll = 0;
 
 }  // namespace
 
-void menuInit() { selected = 0; }
+void menuInit() {
+    selected = 0;
+    scroll = 0;
+}
 
 void menuDraw() {
     auto& dsp = M5.Display;
@@ -33,13 +39,17 @@ void menuDraw() {
     dsp.setCursor(4, 2);
     dsp.println("Cyber");
 
-    // Menu compact (7 entrees) pour petit ecran
-    constexpr int rowH = 13;
-    constexpr int startY = 22;
+    constexpr int rowH = 14;
+    constexpr int startY = 26;
+
+    if (selected < scroll) scroll = selected;
+    if (selected >= scroll + VISIBLE) scroll = selected - VISIBLE + 1;
 
     dsp.setTextSize(1);
-    for (size_t i = 0; i < ITEM_COUNT; i++) {
-        int y = startY + (int)i * rowH;
+    for (size_t vis = 0; vis < VISIBLE; vis++) {
+        size_t i = scroll + vis;
+        if (i >= ITEM_COUNT) break;
+        int y = startY + (int)vis * rowH;
         if (i == selected) {
             dsp.fillRect(2, y - 1, 76, rowH, TFT_GREEN);
             dsp.setTextColor(TFT_BLACK);
@@ -48,6 +58,14 @@ void menuDraw() {
         }
         dsp.setCursor(4, y);
         dsp.println(ITEMS[i].label);
+    }
+
+    if (scroll > 0 || scroll + VISIBLE < ITEM_COUNT) {
+        dsp.setTextColor(TFT_DARKGREY);
+        dsp.setCursor(70, 26);
+        dsp.println("^");
+        dsp.setCursor(70, 26 + (int)(VISIBLE - 1) * rowH);
+        dsp.println("v");
     }
 
     drawFooter("A: bas  B: ok");
