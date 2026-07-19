@@ -4,6 +4,7 @@
 #include "bruteforce_real.h"
 #include "bruteforce_sim.h"
 #include "config.h"
+#include "ddos_sim.h"
 #include "fake_wifi.h"
 #include "menu.h"
 #include "modes.h"
@@ -48,6 +49,10 @@ void enterMode(AppMode mode) {
         case AppMode::PhishingQuiz:
             phishingQuizInit();
             phishingQuizDraw();
+            break;
+        case AppMode::DdosSim:
+            ddosSimInit();
+            ddosSimDraw();
             break;
     }
 }
@@ -109,6 +114,11 @@ void handleButtons() {
                 if (b) phishingAnswer(false);  // legitime
             }
             break;
+
+        case AppMode::DdosSim:
+            if (a) ddosSimTogglePause();
+            if (b) enterMode(AppMode::Menu);
+            break;
     }
 }
 
@@ -150,6 +160,9 @@ void loop() {
             break;
         case AppMode::PcBridge:
             pcBridgeLoop();
+            break;
+        case AppMode::DdosSim:
+            ddosSimLoop();
             break;
         default:
             break;

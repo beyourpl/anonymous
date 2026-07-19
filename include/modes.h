@@ -10,6 +10,7 @@ enum class AppMode : uint8_t {
     Awareness,
     PcBridge,
     PhishingQuiz,
+    DdosSim,
 };
 
 void menuInit();
@@ -39,6 +40,10 @@ void pcBridgeLoop();
 void phishingQuizInit();
 void phishingQuizDraw();
 void phishingQuizLoop();
+
+void ddosSimInit();
+void ddosSimDraw();
+void ddosSimLoop();
 
 void drawHeader(const char* title);
 void drawFooter(const char* hint);

@@ -20,7 +20,8 @@ Deux approches complémentaires :
 | 3 | **Brute force réel** | Teste une wordlist contre **votre** AP de labo |
 | 4 | **Mode PC** | Affiche la progression envoyée par le script Python |
 | 5 | **Quiz phishing** | 6 scénarios : arnaque ou légitime ? |
-| 6 | **Sensibilisation** | Rotation de bonnes pratiques |
+| 6 | **DDoS sim** | Animation pédagogique (aucun paquet réseau) |
+| 7 | **Sensibilisation** | Rotation de bonnes pratiques |
 
 - **A** : descendre dans le menu / pause / conseil suivant  
 - **B** : valider / quitter  
@@ -67,7 +68,8 @@ pio device monitor -b 115200
 2. Afficher sur l'écran ce qui a été saisi → *« Un attaquant récupère ça en quelques secondes »*.
 3. **Brute force sim** : lancer la simulation, laisser le suspense, mot de passe trouvé.
 4. **Quiz phishing** : les participants votent arnaque / légitime sur 6 scénarios.
-5. **Sensibilisation** : parcourir les conseils à l'écran.
+5. **DDoS sim** : montrer le principe d'une saturation (simulation pure).
+6. **Sensibilisation** : parcourir les conseils à l'écran.
 
 ### Partie 2 — M5Stick + PC (~15 min)
 
@@ -109,6 +111,7 @@ RESET
 - Panneau visible : *« Atelier cybersécurité — ne pas saisir de vrais identifiants »*
 - **Consentement** des participants
 - Ne jamais cibler un réseau tiers (illégal en France, art. 323-1 et s. du Code pénal)
+- Le mode **DDoS sim** est une **animation uniquement** : aucun paquet n'est envoyé. Un vrai DDoS est illégal (art. 323-2).
 
 Le portail captif affiche un avertissement pédagogique. Utilisez uniquement des identifiants fictifs en démo.
 
@@ -126,6 +129,7 @@ Le portail captif affiche un avertissement pédagogique. Utilisez uniquement des
 │   ├── bruteforce_real.cpp   # wordlist → AP labo
 │   ├── pc_bridge.cpp         # affichage série
 │   ├── phishing_quiz.cpp     # quiz arnaque / légitime
+│   ├── ddos_sim.cpp          # démo DDoS (simulation, 0 trafic)
 │   ├── awareness.cpp         # conseils
 │   └── menu.cpp
 └── pc-tools/

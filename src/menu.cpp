@@ -13,7 +13,8 @@ const MenuItem ITEMS[] = {
     {"3 Brute force reel", AppMode::BruteReal},
     {"4 Mode PC", AppMode::PcBridge},
     {"5 Quiz phishing", AppMode::PhishingQuiz},
-    {"6 Sensibilisation", AppMode::Awareness},
+    {"6 DDoS sim", AppMode::DdosSim},
+    {"7 Sensibilisation", AppMode::Awareness},
 };
 
 constexpr size_t ITEM_COUNT = sizeof(ITEMS) / sizeof(ITEMS[0]);
@@ -32,9 +33,9 @@ void menuDraw() {
     dsp.setCursor(4, 2);
     dsp.println("Cyber");
 
-    // 6 entrees: espacement serre pour tenir sur l'ecran
-    constexpr int rowH = 14;
-    constexpr int startY = 24;
+    // Menu compact (7 entrees) pour petit ecran
+    constexpr int rowH = 13;
+    constexpr int startY = 22;
 
     dsp.setTextSize(1);
     for (size_t i = 0; i < ITEM_COUNT; i++) {
