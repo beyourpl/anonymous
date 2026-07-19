@@ -7,6 +7,7 @@
 #include "fake_wifi.h"
 #include "menu.h"
 #include "modes.h"
+#include "phishing_quiz.h"
 
 namespace {
 
@@ -43,6 +44,10 @@ void enterMode(AppMode mode) {
         case AppMode::PcBridge:
             pcBridgeInit();
             pcBridgeDraw();
+            break;
+        case AppMode::PhishingQuiz:
+            phishingQuizInit();
+            phishingQuizDraw();
             break;
     }
 }
@@ -90,6 +95,19 @@ void handleButtons() {
 
         case AppMode::PcBridge:
             if (b) enterMode(AppMode::Menu);
+            break;
+
+        case AppMode::PhishingQuiz:
+            if (phishingIsDone()) {
+                if (a) phishingNext();  // recommencer
+                if (b) enterMode(AppMode::Menu);
+            } else if (phishingIsAnswered()) {
+                if (a) phishingNext();
+                if (b) enterMode(AppMode::Menu);
+            } else {
+                if (a) phishingAnswer(true);   // arnaque
+                if (b) phishingAnswer(false);  // legitime
+            }
             break;
     }
 }

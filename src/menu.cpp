@@ -12,7 +12,8 @@ const MenuItem ITEMS[] = {
     {"2 Brute force sim", AppMode::BruteSim},
     {"3 Brute force reel", AppMode::BruteReal},
     {"4 Mode PC", AppMode::PcBridge},
-    {"5 Sensibilisation", AppMode::Awareness},
+    {"5 Quiz phishing", AppMode::PhishingQuiz},
+    {"6 Sensibilisation", AppMode::Awareness},
 };
 
 constexpr size_t ITEM_COUNT = sizeof(ITEMS) / sizeof(ITEMS[0]);
@@ -28,20 +29,23 @@ void menuDraw() {
 
     dsp.setTextColor(TFT_YELLOW);
     dsp.setTextSize(2);
-    dsp.setCursor(4, 4);
+    dsp.setCursor(4, 2);
     dsp.println("Cyber");
 
+    // 6 entrees: espacement serre pour tenir sur l'ecran
+    constexpr int rowH = 14;
+    constexpr int startY = 24;
+
     dsp.setTextSize(1);
-    dsp.setTextColor(TFT_WHITE);
     for (size_t i = 0; i < ITEM_COUNT; i++) {
-        dsp.setCursor(4, 28 + i * 16);
+        int y = startY + (int)i * rowH;
         if (i == selected) {
-            dsp.setTextColor(TFT_BLACK);
-            dsp.fillRect(2, 26 + i * 16, 76, 14, TFT_GREEN);
+            dsp.fillRect(2, y - 1, 76, rowH, TFT_GREEN);
             dsp.setTextColor(TFT_BLACK);
         } else {
             dsp.setTextColor(TFT_WHITE);
         }
+        dsp.setCursor(4, y);
         dsp.println(ITEMS[i].label);
     }
 

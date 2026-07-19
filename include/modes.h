@@ -9,6 +9,7 @@ enum class AppMode : uint8_t {
     BruteReal,
     Awareness,
     PcBridge,
+    PhishingQuiz,
 };
 
 void menuInit();
@@ -34,6 +35,10 @@ void awarenessLoop();
 void pcBridgeInit();
 void pcBridgeDraw();
 void pcBridgeLoop();
+
+void phishingQuizInit();
+void phishingQuizDraw();
+void phishingQuizLoop();
 
 void drawHeader(const char* title);
 void drawFooter(const char* hint);

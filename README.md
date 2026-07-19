@@ -19,7 +19,8 @@ Deux approches complémentaires :
 | 2 | **Brute force sim** | Animation réaliste, mot de passe faible trouvé à la fin |
 | 3 | **Brute force réel** | Teste une wordlist contre **votre** AP de labo |
 | 4 | **Mode PC** | Affiche la progression envoyée par le script Python |
-| 5 | **Sensibilisation** | Rotation de bonnes pratiques |
+| 5 | **Quiz phishing** | 6 scénarios : arnaque ou légitime ? |
+| 6 | **Sensibilisation** | Rotation de bonnes pratiques |
 
 - **A** : descendre dans le menu / pause / conseil suivant  
 - **B** : valider / quitter  
@@ -65,7 +66,8 @@ pio device monitor -b 115200
 1. **Faux Wi-Fi** : montrer le SSID sur un téléphone, se connecter, ouvrir le portail captif.
 2. Afficher sur l'écran ce qui a été saisi → *« Un attaquant récupère ça en quelques secondes »*.
 3. **Brute force sim** : lancer la simulation, laisser le suspense, mot de passe trouvé.
-4. **Sensibilisation** : parcourir les conseils à l'écran.
+4. **Quiz phishing** : les participants votent arnaque / légitime sur 6 scénarios.
+5. **Sensibilisation** : parcourir les conseils à l'écran.
 
 ### Partie 2 — M5Stick + PC (~15 min)
 
@@ -123,6 +125,7 @@ Le portail captif affiche un avertissement pédagogique. Utilisez uniquement des
 │   ├── bruteforce_sim.cpp    # simulation écran
 │   ├── bruteforce_real.cpp   # wordlist → AP labo
 │   ├── pc_bridge.cpp         # affichage série
+│   ├── phishing_quiz.cpp     # quiz arnaque / légitime
 │   ├── awareness.cpp         # conseils
 │   └── menu.cpp
 └── pc-tools/
